@@ -4,6 +4,7 @@ import { GameButton } from "@/components/ui/game-button";
 import { Input } from "@/components/ui/input";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import storeSticker from "@/assets/store-sticker.png";
 
 interface LoginScreenProps {
   onLogin: () => void;
@@ -75,13 +76,13 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
           className="block"
         >
           <div className="w-32 h-32 bg-gradient-to-br from-primary to-primary-glow rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 cursor-pointer border-4 border-white/30 flex flex-col items-center justify-center relative overflow-hidden">
-            {/* يمكن إضافة صورة PNG هنا */}
-            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
-            <div className="relative z-10 text-center text-white">
-              <div className="text-3xl mb-1">🛍️</div>
-              <div className="text-xs font-bold leading-tight">
-                حياكم في<br />متجرنا
-              </div>
+            {/* صورة المتجر */}
+            <div className="absolute inset-2 rounded-xl overflow-hidden">
+              <img 
+                src={storeSticker} 
+                alt="متجر Hex Store" 
+                className="w-full h-full object-cover"
+              />
             </div>
             
             {/* تأثير لمعان */}
