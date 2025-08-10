@@ -33,7 +33,7 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-game flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-game flex flex-col items-center justify-center p-6">
       <GameCard className="w-full max-w-md p-8">
         <CardHeader className="text-center space-y-4">
           <CardTitle className="text-4xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
@@ -66,23 +66,26 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
         </CardContent>
       </GameCard>
       
-      {/* ستيكر المتجر */}
-      <div className="mt-6">
+      {/* ستيكر المتجر - مربع تحت لوحة الدخول */}
+      <div className="mt-8">
         <a 
           href="https://hex-store.com" 
           target="_blank" 
           rel="noopener noreferrer"
-          className="block w-full max-w-md mx-auto"
+          className="block"
         >
-          <div className="bg-gradient-to-r from-primary to-primary-glow p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border-2 border-white/20">
-            <div className="text-center">
-              <div className="text-white font-bold text-lg mb-1">
-                🛍️ حياكم في متجرنا 🛍️
-              </div>
-              <div className="text-white/80 text-sm">
-                اضغط للزيارة
+          <div className="w-32 h-32 bg-gradient-to-br from-primary to-primary-glow rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-110 cursor-pointer border-4 border-white/30 flex flex-col items-center justify-center relative overflow-hidden">
+            {/* يمكن إضافة صورة PNG هنا */}
+            <div className="absolute inset-0 bg-white/10 backdrop-blur-sm"></div>
+            <div className="relative z-10 text-center text-white">
+              <div className="text-3xl mb-1">🛍️</div>
+              <div className="text-xs font-bold leading-tight">
+                حياكم في<br />متجرنا
               </div>
             </div>
+            
+            {/* تأثير لمعان */}
+            <div className="absolute -top-1/2 -right-1/2 w-full h-full bg-gradient-to-br from-white/20 to-transparent rotate-45 transition-all duration-700 hover:translate-x-full"></div>
           </div>
         </a>
       </div>

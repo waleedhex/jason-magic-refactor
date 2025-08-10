@@ -67,8 +67,11 @@ const Index = () => {
 
   const handleNextOrder = () => {
     // إضافة التحدي الحالي للمستخدمة
-    const currentUsedIndex = currentOrderIndex;
-    setUsedOrders(prev => [...prev, currentUsedIndex]);
+    const currentOrder = availableOrders[currentOrderIndex];
+    const currentOrderId = orders.findIndex(order => order.text === currentOrder.text);
+    
+    const newUsedOrders = [...usedOrders, currentOrderId];
+    setUsedOrders(newUsedOrders);
     
     // إزالة التحدي من المتاحة
     const newAvailableOrders = availableOrders.filter((_, index) => index !== currentOrderIndex);
