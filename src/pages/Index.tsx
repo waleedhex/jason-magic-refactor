@@ -15,6 +15,8 @@ const Index = () => {
   const [gameTime, setGameTime] = useState(2); // في الدقائق
   const [currentOrderIndex, setCurrentOrderIndex] = useState(0);
   const [showTimeUpModal, setShowTimeUpModal] = useState(false);
+  const [usedOrders, setUsedOrders] = useState<number[]>([]);
+  const [availableOrders, setAvailableOrders] = useState<Order[]>([]);
 
   const codes: string[] = codesData;
   const orders: Order[] = ordersData;
@@ -37,17 +39,21 @@ const Index = () => {
 
   const handleStartGame = () => {
     if (players.length > 0) {
+      // إعادة تعيين التحديات المتاحة والمستخدمة
+      setUsedOrders([]);
+      setAvailableOrders([...orders]);
       setCurrentOrderIndex(0);
       setGameState("playing");
     }
   };
 
   const handleSelectWinner = (playerIndex: number) => {
+    const currentOrder = availableOrders[currentOrderIndex];
     setPlayers(prev => prev.map((player, index) => 
       index === playerIndex 
         ? { 
             ...player, 
-            points: player.points + orders[currentOrderIndex].points,
+            points: player.points + currentOrder.points,
             challengesWon: player.challengesWon + 1
           }
         : player
@@ -60,10 +66,23 @@ const Index = () => {
   };
 
   const handleNextOrder = () => {
-    if (currentOrderIndex < orders.length - 1) {
-      setCurrentOrderIndex(prev => prev + 1);
+    // إضافة التحدي الحالي للمستخدمة
+    const currentUsedIndex = currentOrderIndex;
+    setUsedOrders(prev => [...prev, currentUsedIndex]);
+    
+    // إزالة التحدي من المتاحة
+    const newAvailableOrders = availableOrders.filter((_, index) => index !== currentOrderIndex);
+    
+    // إذا انتهت التحديات، أعد تعيينها
+    if (newAvailableOrders.length === 0) {
+      setAvailableOrders([...orders]);
+      setUsedOrders([]);
+      setCurrentOrderIndex(0);
     } else {
-      handleEndGame();
+      setAvailableOrders(newAvailableOrders);
+      // اختر تحدي عشوائي من المتاحة
+      const randomIndex = Math.floor(Math.random() * newAvailableOrders.length);
+      setCurrentOrderIndex(randomIndex);
     }
   };
 
@@ -74,6 +93,8 @@ const Index = () => {
   const handleReturnToSetup = () => {
     setPlayers([]);
     setCurrentOrderIndex(0);
+    setUsedOrders([]);
+    setAvailableOrders([]);
     setGameTime(2);
     setGameState("setup");
   };
@@ -103,10 +124,10 @@ const Index = () => {
         />
       )}
       
-      {gameState === "playing" && (
+      {gameState === "playing" && availableOrders.length > 0 && (
         <GameScreen
           players={players}
-          orders={orders}
+          orders={availableOrders}
           currentOrderIndex={currentOrderIndex}
           gameTime={gameTime * 60} // تحويل إلى ثوان
           onSelectWinner={handleSelectWinner}

@@ -65,6 +65,27 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
           </GameButton>
         </CardContent>
       </GameCard>
+      
+      {/* ستيكر المتجر */}
+      <div className="mt-6">
+        <a 
+          href="https://hex-store.com" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="block w-full max-w-md mx-auto"
+        >
+          <div className="bg-gradient-to-r from-primary to-primary-glow p-4 rounded-2xl shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105 cursor-pointer border-2 border-white/20">
+            <div className="text-center">
+              <div className="text-white font-bold text-lg mb-1">
+                🛍️ حياكم في متجرنا 🛍️
+              </div>
+              <div className="text-white/80 text-sm">
+                اضغط للزيارة
+              </div>
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
   );
 }
