@@ -4,6 +4,7 @@ import { GameButton } from "@/components/ui/game-button";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Timer, Trophy, SkipForward, Forward } from "lucide-react";
 import { Player } from "./SetupScreen";
+import { WinnerDialog } from "./WinnerDialog";
 
 export interface Order {
   text: string;
@@ -197,36 +198,15 @@ export function GameScreen({
             </GameButton>
           </div>
 
-          {/* اختيار الفائز */}
-          {showWinnerSelection && (
-            <GameCard className="p-6">
-              <h3 className="text-xl font-bold text-center mb-4">اختر الفائز</h3>
-              <div className="space-y-3">
-                {players.map((player, index) => (
-                  <GameButton
-                    key={index}
-                    variant="card"
-                    onClick={() => handleWinnerSelect(index)}
-                    className="w-full p-4 h-auto flex justify-between"
-                  >
-                    <span className="font-semibold">{player.name}</span>
-                    <span className="text-sm text-muted-foreground">
-                      {player.points} نقاط • {player.challengesWon} تحديات
-                    </span>
-                  </GameButton>
-                ))}
-              </div>
-              <GameButton
-                variant="ghost"
-                onClick={() => setShowWinnerSelection(false)}
-                className="w-full mt-4"
-              >
-                إلغاء
-              </GameButton>
-            </GameCard>
-          )}
         </CardContent>
       </GameCard>
+
+      <WinnerDialog
+        isOpen={showWinnerSelection}
+        onClose={() => setShowWinnerSelection(false)}
+        players={players}
+        onSelectWinner={handleWinnerSelect}
+      />
     </div>
   );
 }

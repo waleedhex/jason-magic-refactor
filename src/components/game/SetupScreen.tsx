@@ -132,11 +132,12 @@ export function SetupScreen({
               max={5}
               min={0}
               step={0.5}
-              className="w-full"
+              className="w-full [&>*:first-child]:flex-row-reverse"
+              dir="ltr"
             />
             <div className="flex justify-between text-sm text-muted-foreground">
-              <span>بدون وقت</span>
               <span>5 دقائق</span>
+              <span>بدون وقت</span>
             </div>
           </div>
 
