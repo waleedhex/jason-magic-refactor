@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { GameCard } from "@/components/ui/game-card";
 import { GameButton } from "@/components/ui/game-button";
 import { Input } from "@/components/ui/input";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/components/ui/use-toast";
+import { usePWA } from "@/hooks/usePWA";
 import storeSticker from "@/assets/store-sticker.png";
 
 interface LoginScreenProps {
@@ -14,6 +15,14 @@ interface LoginScreenProps {
 export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
   const [codeInput, setCodeInput] = useState("");
   const { toast } = useToast();
+  const { isPWA } = usePWA();
+
+  // أوتوفيل رمز الدخول في وضع PWA
+  useEffect(() => {
+    if (isPWA && codes.length > 0) {
+      setCodeInput(codes[0]);
+    }
+  }, [isPWA, codes]);
 
   const verifyCode = () => {
     if (codes.includes(codeInput.toLowerCase())) {

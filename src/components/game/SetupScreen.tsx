@@ -5,8 +5,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Trash2, Users, Clock } from "lucide-react";
+import { Trash2, Users, Clock, Download } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { usePWA } from "@/hooks/usePWA";
+import { InstallDialog } from "@/components/ui/install-dialog";
+import { useState as useDialogState } from "react";
 
 export interface Player {
   name: string;
@@ -32,7 +35,9 @@ export function SetupScreen({
   onStartGame,
 }: SetupScreenProps) {
   const [playerName, setPlayerName] = useState("");
+  const [showInstallDialog, setShowInstallDialog] = useDialogState(false);
   const { toast } = useToast();
+  const { isPWA, isInstallable, installPWA } = usePWA();
 
   const addPlayer = () => {
     const name = playerName.trim();
@@ -62,6 +67,17 @@ export function SetupScreen({
 
   const formatTime = (minutes: number) => {
     return minutes === 0 ? "بدون وقت" : `${minutes} دقيقة`;
+  };
+
+  const handleInstallApp = async () => {
+    const success = await installPWA();
+    if (success) {
+      toast({
+        title: "تم!",
+        description: "تم تثبيت التطبيق بنجاح",
+      });
+    }
+    setShowInstallDialog(false);
   };
 
   return (
@@ -141,6 +157,19 @@ export function SetupScreen({
             </div>
           </div>
 
+          {/* زر تحميل التطبيق */}
+          {!isPWA && isInstallable && (
+            <GameButton
+              variant="primary"
+              size="lg"
+              onClick={() => setShowInstallDialog(true)}
+              className="w-full flex items-center gap-2"
+            >
+              <Download className="w-5 h-5" />
+              حفظ كتطبيق
+            </GameButton>
+          )}
+
           {/* زر البدء */}
           <GameButton
             variant="game"
@@ -153,6 +182,13 @@ export function SetupScreen({
           </GameButton>
         </CardContent>
       </GameCard>
+
+      {/* نافذة تعليمات التثبيت */}
+      <InstallDialog
+        isOpen={showInstallDialog}
+        onClose={() => setShowInstallDialog(false)}
+        onInstall={handleInstallApp}
+      />
     </div>
   );
 }
