@@ -62,6 +62,7 @@ All colors MUST be HSL.
     /* Animations */
     --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-fast: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -129,5 +130,60 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+
+  /* Mobile-first responsive utilities */
+  .mobile-responsive {
+    @apply text-sm sm:text-base;
+  }
+
+  .mobile-button {
+    @apply h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base;
+  }
+
+  .mobile-input {
+    @apply h-10 text-sm sm:h-12 sm:text-base;
+  }
+
+  /* Enhanced animations for mobile */
+  @media (prefers-reduced-motion: no-preference) {
+    .animate-scale-in {
+      animation: scale-in 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+
+    .hover-scale {
+      transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .hover-scale:hover {
+      transform: scale(1.05);
+    }
+
+    @media (hover: none) {
+      .hover-scale:hover {
+        transform: none;
+      }
+      
+      .hover-scale:active {
+        transform: scale(0.95);
+      }
+    }
+  }
+
+  /* Touch optimizations */
+  @media (pointer: coarse) {
+    button, [role="button"] {
+      min-height: 44px;
+      min-width: 44px;
+    }
+  }
+
+  /* Smooth transitions for all interactive elements */
+  button, input, textarea, select {
+    transition: var(--transition-fast);
   }
 }
