@@ -77,7 +77,8 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
       </GameCard>
       
       {/* ستيكر المتجر - مربع تحت لوحة الدخول */}
-      <div className="mt-8">
+      <div className="mt-8 text-center">
+        <p className="text-white text-lg font-bold mb-4 drop-shadow-lg">حياكم في متجرنا</p>
         <a 
           href="https://hex-store.com" 
           target="_blank" 

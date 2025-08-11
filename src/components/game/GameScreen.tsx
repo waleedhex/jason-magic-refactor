@@ -119,7 +119,7 @@ export function GameScreen({
             أسرع واحد
           </CardTitle>
           <p className="text-muted-foreground">
-            التحدي {currentOrderIndex + 1} من {orders.length}
+            التحدي رقم {currentOrderIndex + 1}
           </p>
         </CardHeader>
         <CardContent className="space-y-8">
