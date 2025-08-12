@@ -42,8 +42,11 @@ const Index = () => {
     if (players.length > 0) {
       // إعادة تعيين التحديات المتاحة والمستخدمة
       setUsedOrders([]);
-      setAvailableOrders([...orders]);
-      setCurrentOrderIndex(0);
+      const shuffledOrders = [...orders];
+      setAvailableOrders(shuffledOrders);
+      // اختيار أول أمر عشوائي
+      const randomIndex = Math.floor(Math.random() * shuffledOrders.length);
+      setCurrentOrderIndex(randomIndex);
       setCurrentOrderNumber(1);
       setGameState("playing");
     }
@@ -78,11 +81,13 @@ const Index = () => {
     // إزالة التحدي من المتاحة
     const newAvailableOrders = availableOrders.filter((_, index) => index !== currentOrderIndex);
     
-    // إذا انتهت التحديات، أعد تعيينها
+    // إذا انتهت التحديات، أعد تعيينها واخلط الترتيب
     if (newAvailableOrders.length === 0) {
-      setAvailableOrders([...orders]);
+      const reshuffledOrders = [...orders];
+      setAvailableOrders(reshuffledOrders);
       setUsedOrders([]);
-      setCurrentOrderIndex(0);
+      const randomIndex = Math.floor(Math.random() * reshuffledOrders.length);
+      setCurrentOrderIndex(randomIndex);
       setCurrentOrderNumber(1);
     } else {
       setAvailableOrders(newAvailableOrders);
