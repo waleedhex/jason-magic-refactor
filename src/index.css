@@ -203,4 +203,43 @@ All colors MUST be HSL.
   button, input, textarea, select {
     transition: var(--transition-fast);
   }
+
+  /* Touch and mobile optimizations */
+  @media (max-width: 640px) {
+    .game-button {
+      min-height: 48px;
+      font-size: 0.875rem;
+    }
+    
+    .game-card {
+      padding: 1rem;
+    }
+  }
+
+  /* Landscape mode optimizations */
+  @media (orientation: landscape) and (max-height: 600px) {
+    .game-button {
+      min-height: 40px;
+      font-size: 0.75rem;
+      padding: 0.5rem 1rem;
+    }
+    
+    .game-card {
+      padding: 0.75rem;
+    }
+    
+    body {
+      font-size: 0.875rem;
+      overflow: hidden;
+    }
+    
+    html {
+      overflow: hidden;
+    }
+    
+    /* تحسين توزيع العناصر في وضع اللاندسكيب */
+    .landscape\:grid-cols-4 > * {
+      min-width: 0;
+    }
+  }
 }

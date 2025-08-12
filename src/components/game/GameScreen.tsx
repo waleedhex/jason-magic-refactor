@@ -112,8 +112,8 @@ export function GameScreen({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-game flex items-center justify-center p-4 sm:p-6 landscape:p-4">
-      <GameCard className="w-full max-w-3xl landscape:max-w-5xl p-6 sm:p-8 landscape:p-6 transition-all duration-300">
+    <div className="h-screen bg-gradient-game flex items-center justify-center p-4 sm:p-6 landscape:p-4 overflow-hidden">
+      <GameCard className="w-full max-w-3xl landscape:max-w-6xl h-fit max-h-[90vh] landscape:max-h-[85vh] p-6 sm:p-8 landscape:p-6 transition-all duration-300 overflow-y-auto">
         <CardHeader className="text-center">
           <CardTitle className="text-2xl sm:text-3xl landscape:text-2xl font-bold text-primary">
             أسرع واحد
@@ -122,7 +122,7 @@ export function GameScreen({
             التحدي رقم {currentOrderIndex + 1}
           </p>
         </CardHeader>
-        <CardContent className="space-y-6 sm:space-y-8 landscape:space-y-6 landscape:grid landscape:grid-cols-2 landscape:gap-6">
+        <CardContent className="space-y-6 sm:space-y-8 landscape:space-y-4 landscape:grid landscape:grid-cols-2 landscape:gap-6">
           {/* عرض التحدي */}
           <GameCard 
             onClick={revealOrder}
@@ -151,52 +151,69 @@ export function GameScreen({
             </div>
           )}
 
-          {/* أزرار العمل */}
+          {/* أزرار العمل والتحكم */}
           {showActions && (
-            <div className={`space-y-3 sm:space-y-4 landscape:space-y-3 landscape:col-span-1 transition-all duration-500 ${showActions ? 'opacity-100 transform-none' : 'opacity-0 transform scale-95'}`}>
-              <div className="grid grid-cols-1 gap-3 sm:gap-4 landscape:gap-3">
-                <GameButton
-                  variant="success"
-                  size="lg"
-                  onClick={() => setShowWinnerSelection(true)}
-                  className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-                >
-                  <Trophy className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                  اختيار الفائز
-                </GameButton>
-                <GameButton
-                  variant="warning"
-                  size="lg"
-                  onClick={onSkipOrder}
-                  className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-                >
-                  <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                  لا يمكن تنفيذه
-                </GameButton>
-              </div>
+            <div className={`space-y-3 sm:space-y-4 landscape:space-y-0 landscape:col-span-2 landscape:grid landscape:grid-cols-4 landscape:gap-3 transition-all duration-500 ${showActions ? 'opacity-100 transform-none' : 'opacity-0 transform scale-95'}`}>
+              <GameButton
+                variant="success"
+                size="lg"
+                onClick={() => setShowWinnerSelection(true)}
+                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                <Trophy className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                اختيار الفائز
+              </GameButton>
+              <GameButton
+                variant="warning"
+                size="lg"
+                onClick={onSkipOrder}
+                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                لا يمكن تنفيذه
+              </GameButton>
+              <GameButton
+                variant="primary"
+                size="lg"
+                onClick={onNextOrder}
+                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                التالي
+              </GameButton>
+              <GameButton
+                variant="danger"
+                size="lg"
+                onClick={onEndGame}
+                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                إنهاء الجولات
+              </GameButton>
             </div>
           )}
 
-          {/* أزرار التحكم */}
-          <div className="flex gap-3 sm:gap-4 landscape:gap-3 landscape:col-span-1">
-            <GameButton
-              variant="primary"
-              size="lg"
-              onClick={onNextOrder}
-              className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-            >
-              <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-              التالي
-            </GameButton>
-            <GameButton
-              variant="danger"
-              size="lg"
-              onClick={onEndGame}
-              className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-            >
-              إنهاء الجولات
-            </GameButton>
-          </div>
+          {/* أزرار التحكم للوضع العادي */}
+          {!showActions && (
+            <div className="flex gap-3 sm:gap-4 landscape:gap-3 landscape:col-span-2">
+              <GameButton
+                variant="primary"
+                size="lg"
+                onClick={onNextOrder}
+                className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                التالي
+              </GameButton>
+              <GameButton
+                variant="danger"
+                size="lg"
+                onClick={onEndGame}
+                className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+              >
+                إنهاء الجولات
+              </GameButton>
+            </div>
+          )}
 
         </CardContent>
       </GameCard>
