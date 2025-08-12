@@ -112,29 +112,29 @@ export function GameScreen({
   }
 
   return (
-    <div className="min-h-screen bg-gradient-game flex items-center justify-center p-6">
-      <GameCard className="w-full max-w-3xl p-8">
+    <div className="min-h-screen bg-gradient-game flex items-center justify-center p-4 sm:p-6 landscape:p-4">
+      <GameCard className="w-full max-w-3xl landscape:max-w-5xl p-6 sm:p-8 landscape:p-6 transition-all duration-300">
         <CardHeader className="text-center">
-          <CardTitle className="text-3xl font-bold text-primary">
+          <CardTitle className="text-2xl sm:text-3xl landscape:text-2xl font-bold text-primary">
             أسرع واحد
           </CardTitle>
-          <p className="text-muted-foreground">
+          <p className="text-muted-foreground text-base sm:text-lg landscape:text-base">
             التحدي رقم {currentOrderIndex + 1}
           </p>
         </CardHeader>
-        <CardContent className="space-y-8">
+        <CardContent className="space-y-6 sm:space-y-8 landscape:space-y-6 landscape:grid landscape:grid-cols-2 landscape:gap-6">
           {/* عرض التحدي */}
           <GameCard 
             onClick={revealOrder}
-            className="p-8 text-center cursor-pointer min-h-[120px] flex items-center justify-center"
+            className="p-6 sm:p-8 landscape:p-6 text-center cursor-pointer min-h-[100px] sm:min-h-[120px] landscape:min-h-[100px] flex items-center justify-center transition-all duration-300 hover:scale-105 landscape:col-span-2"
             hover={!isOrderRevealed}
           >
-            <div className="space-y-4">
-              <div className="text-2xl font-bold">
+            <div className="space-y-3 sm:space-y-4">
+              <div className="text-lg sm:text-2xl landscape:text-xl font-bold leading-relaxed">
                 {isOrderRevealed ? currentOrder.text : "اضغط لعرض التحدي"}
               </div>
               {isOrderRevealed && (
-                <div className="text-lg text-primary font-semibold">
+                <div className="text-base sm:text-lg landscape:text-base text-primary font-semibold">
                   النقاط: {currentOrder.points}
                 </div>
               )}
@@ -143,9 +143,9 @@ export function GameScreen({
 
           {/* المؤقت */}
           {gameTime > 0 && (
-            <div className="text-center">
-              <div className="text-4xl font-bold text-game-timer flex items-center justify-center gap-2">
-                <Timer className="w-8 h-8" />
+            <div className="text-center landscape:col-span-2">
+              <div className="text-3xl sm:text-4xl landscape:text-3xl font-bold text-game-timer flex items-center justify-center gap-2">
+                <Timer className="w-6 h-6 sm:w-8 sm:h-8 landscape:w-6 landscape:h-6" />
                 {formatTime(timeLeft)}
               </div>
             </div>
@@ -153,24 +153,24 @@ export function GameScreen({
 
           {/* أزرار العمل */}
           {showActions && (
-            <div className={`space-y-4 transition-opacity duration-500 ${showActions ? 'opacity-100' : 'opacity-0'}`}>
-              <div className="grid grid-cols-1 gap-4">
+            <div className={`space-y-3 sm:space-y-4 landscape:space-y-3 landscape:col-span-1 transition-all duration-500 ${showActions ? 'opacity-100 transform-none' : 'opacity-0 transform scale-95'}`}>
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 landscape:gap-3">
                 <GameButton
                   variant="success"
                   size="lg"
                   onClick={() => setShowWinnerSelection(true)}
-                  className="w-full"
+                  className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
                 >
-                  <Trophy className="w-5 h-5 ml-2" />
+                  <Trophy className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
                   اختيار الفائز
                 </GameButton>
                 <GameButton
                   variant="warning"
                   size="lg"
                   onClick={onSkipOrder}
-                  className="w-full"
+                  className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
                 >
-                  <SkipForward className="w-5 h-5 ml-2" />
+                  <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
                   لا يمكن تنفيذه
                 </GameButton>
               </div>
@@ -178,21 +178,21 @@ export function GameScreen({
           )}
 
           {/* أزرار التحكم */}
-          <div className="flex gap-4">
+          <div className="flex gap-3 sm:gap-4 landscape:gap-3 landscape:col-span-1">
             <GameButton
               variant="primary"
               size="lg"
               onClick={onNextOrder}
-              className="flex-1"
+              className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
             >
-              <Forward className="w-5 h-5 ml-2" />
+              <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
               التالي
             </GameButton>
             <GameButton
               variant="danger"
               size="lg"
               onClick={onEndGame}
-              className="flex-1"
+              className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
             >
               إنهاء الجولات
             </GameButton>

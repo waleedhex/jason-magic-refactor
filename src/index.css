@@ -134,15 +134,32 @@ All colors MUST be HSL.
 
   /* Mobile-first responsive utilities */
   .mobile-responsive {
-    @apply text-sm sm:text-base;
+    @apply text-sm sm:text-base landscape:text-sm;
   }
 
   .mobile-button {
-    @apply h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base;
+    @apply h-10 px-4 text-sm sm:h-12 sm:px-6 sm:text-base landscape:h-10 landscape:px-4 landscape:text-sm;
   }
 
   .mobile-input {
-    @apply h-10 text-sm sm:h-12 sm:text-base;
+    @apply h-10 text-sm sm:h-12 sm:text-base landscape:h-10 landscape:text-sm;
+  }
+
+  /* Landscape mode optimizations */
+  @media screen and (orientation: landscape) and (max-height: 600px) {
+    .min-h-screen {
+      @apply min-h-[100dvh];
+    }
+    
+    /* Compact spacing for landscape */
+    .landscape\:compact {
+      @apply py-2 space-y-2;
+    }
+    
+    /* Ensure content fits in landscape */
+    .landscape\:fit-content {
+      @apply max-h-[100dvh] overflow-y-auto;
+    }
   }
 
   /* Enhanced animations for mobile */
