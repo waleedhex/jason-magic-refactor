@@ -16,6 +16,8 @@ interface GameScreenProps {
   orders: Order[];
   currentOrderIndex: number;
   gameTime: number;
+  totalOrders: number; // إضافة العدد الكلي
+  currentOrderNumber: number; // رقم التحدي الحالي
   onSelectWinner: (playerIndex: number) => void;
   onSkipOrder: () => void;
   onNextOrder: () => void;
@@ -28,6 +30,8 @@ export function GameScreen({
   orders,
   currentOrderIndex,
   gameTime,
+  totalOrders,
+  currentOrderNumber,
   onSelectWinner,
   onSkipOrder,
   onNextOrder,
@@ -119,7 +123,7 @@ export function GameScreen({
             أسرع واحد
           </CardTitle>
           <p className="text-muted-foreground text-base sm:text-lg landscape:text-base">
-            التحدي رقم {currentOrderIndex + 1}
+            التحدي رقم {currentOrderNumber} من {totalOrders}
           </p>
         </CardHeader>
         <CardContent className="space-y-6 sm:space-y-8 landscape:space-y-4 landscape:grid landscape:grid-cols-2 landscape:gap-6">

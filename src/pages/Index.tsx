@@ -17,6 +17,7 @@ const Index = () => {
   const [showTimeUpModal, setShowTimeUpModal] = useState(false);
   const [usedOrders, setUsedOrders] = useState<number[]>([]);
   const [availableOrders, setAvailableOrders] = useState<Order[]>([]);
+  const [currentOrderNumber, setCurrentOrderNumber] = useState(1);
 
   const codes: string[] = codesData;
   const orders: Order[] = ordersData;
@@ -43,6 +44,7 @@ const Index = () => {
       setUsedOrders([]);
       setAvailableOrders([...orders]);
       setCurrentOrderIndex(0);
+      setCurrentOrderNumber(1);
       setGameState("playing");
     }
   };
@@ -81,11 +83,13 @@ const Index = () => {
       setAvailableOrders([...orders]);
       setUsedOrders([]);
       setCurrentOrderIndex(0);
+      setCurrentOrderNumber(1);
     } else {
       setAvailableOrders(newAvailableOrders);
       // اختر تحدي عشوائي من المتاحة
       const randomIndex = Math.floor(Math.random() * newAvailableOrders.length);
       setCurrentOrderIndex(randomIndex);
+      setCurrentOrderNumber(prev => prev + 1);
     }
   };
 
@@ -98,6 +102,7 @@ const Index = () => {
     setCurrentOrderIndex(0);
     setUsedOrders([]);
     setAvailableOrders([]);
+    setCurrentOrderNumber(1);
     setGameTime(2);
     setGameState("setup");
   };
@@ -132,6 +137,8 @@ const Index = () => {
           players={players}
           orders={availableOrders}
           currentOrderIndex={currentOrderIndex}
+          totalOrders={orders.length}
+          currentOrderNumber={currentOrderNumber}
           gameTime={gameTime * 60} // تحويل إلى ثوان
           onSelectWinner={handleSelectWinner}
           onSkipOrder={handleSkipOrder}
