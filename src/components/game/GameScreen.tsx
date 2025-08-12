@@ -152,68 +152,70 @@ export function GameScreen({
           )}
 
           {/* أزرار العمل والتحكم */}
-          {showActions && (
-            <div className={`space-y-3 sm:space-y-4 landscape:space-y-0 landscape:col-span-2 landscape:grid landscape:grid-cols-4 landscape:gap-3 transition-all duration-500 ${showActions ? 'opacity-100 transform-none' : 'opacity-0 transform scale-95'}`}>
-              <GameButton
-                variant="success"
-                size="lg"
-                onClick={() => setShowWinnerSelection(true)}
-                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                <Trophy className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                اختيار الفائز
-              </GameButton>
-              <GameButton
-                variant="warning"
-                size="lg"
-                onClick={onSkipOrder}
-                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                لا يمكن تنفيذه
-              </GameButton>
-              <GameButton
-                variant="primary"
-                size="lg"
-                onClick={onNextOrder}
-                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                التالي
-              </GameButton>
-              <GameButton
-                variant="danger"
-                size="lg"
-                onClick={onEndGame}
-                className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                إنهاء الجولات
-              </GameButton>
+          <div className="landscape:col-span-2">
+            {/* مساحة محجوزة للأزرار لمنع القفز */}
+            <div className="min-h-[60px] sm:min-h-[64px] landscape:min-h-[52px] flex items-center">
+              {showActions ? (
+                <div className="w-full space-y-3 sm:space-y-4 landscape:space-y-0 landscape:grid landscape:grid-cols-4 landscape:gap-3 animate-fade-in">
+                  <GameButton
+                    variant="success"
+                    size="lg"
+                    onClick={() => setShowWinnerSelection(true)}
+                    className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    <Trophy className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                    اختيار الفائز
+                  </GameButton>
+                  <GameButton
+                    variant="warning"
+                    size="lg"
+                    onClick={onSkipOrder}
+                    className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    <SkipForward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                    لا يمكن تنفيذه
+                  </GameButton>
+                  <GameButton
+                    variant="primary"
+                    size="lg"
+                    onClick={onNextOrder}
+                    className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                    التالي
+                  </GameButton>
+                  <GameButton
+                    variant="danger"
+                    size="lg"
+                    onClick={onEndGame}
+                    className="w-full h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    إنهاء الجولات
+                  </GameButton>
+                </div>
+              ) : (
+                <div className="w-full flex gap-3 sm:gap-4 landscape:gap-3 animate-fade-in">
+                  <GameButton
+                    variant="primary"
+                    size="lg"
+                    onClick={onNextOrder}
+                    className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
+                    التالي
+                  </GameButton>
+                  <GameButton
+                    variant="danger"
+                    size="lg"
+                    onClick={onEndGame}
+                    className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
+                  >
+                    إنهاء الجولات
+                  </GameButton>
+                </div>
+              )}
             </div>
-          )}
-
-          {/* أزرار التحكم للوضع العادي */}
-          {!showActions && (
-            <div className="flex gap-3 sm:gap-4 landscape:gap-3 landscape:col-span-2">
-              <GameButton
-                variant="primary"
-                size="lg"
-                onClick={onNextOrder}
-                className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                <Forward className="w-4 h-4 sm:w-5 sm:h-5 landscape:w-4 landscape:h-4 ml-2" />
-                التالي
-              </GameButton>
-              <GameButton
-                variant="danger"
-                size="lg"
-                onClick={onEndGame}
-                className="flex-1 h-11 sm:h-12 landscape:h-10 text-sm sm:text-base landscape:text-sm transition-all hover:scale-105"
-              >
-                إنهاء الجولات
-              </GameButton>
-            </div>
-          )}
+          </div>
 
         </CardContent>
       </GameCard>
