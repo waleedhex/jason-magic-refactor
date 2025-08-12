@@ -241,5 +241,133 @@ All colors MUST be HSL.
     .landscape\:grid-cols-4 > * {
       min-width: 0;
     }
+
+    /* Landscape utility classes */
+    .landscape\:max-w-4xl {
+      max-width: 56rem;
+    }
+    
+    .landscape\:p-4 {
+      padding: 1rem;
+    }
+    
+    .landscape\:p-6 {
+      padding: 1.5rem;
+    }
+    
+    .landscape\:text-2xl {
+      font-size: 1.5rem;
+      line-height: 2rem;
+    }
+    
+    .landscape\:w-6 {
+      width: 1.5rem;
+    }
+    
+    .landscape\:h-6 {
+      height: 1.5rem;
+    }
+    
+    .landscape\:space-y-4 > :not([hidden]) ~ :not([hidden]) {
+      --tw-space-y-reverse: 0;
+      margin-top: calc(1rem * calc(1 - var(--tw-space-y-reverse)));
+      margin-bottom: calc(1rem * var(--tw-space-y-reverse));
+    }
+    
+    .landscape\:grid {
+      display: grid;
+    }
+    
+    .landscape\:grid-cols-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    
+    .landscape\:gap-6 {
+      gap: 1.5rem;
+    }
+    
+    .landscape\:col-span-2 {
+      grid-column: span 2 / span 2;
+    }
+    
+    .landscape\:col-span-1 {
+      grid-column: span 1 / span 1;
+    }
+    
+    .landscape\:text-base {
+      font-size: 1rem;
+      line-height: 1.5rem;
+    }
+    
+    .landscape\:text-sm {
+      font-size: 0.875rem;
+      line-height: 1.25rem;
+    }
+    
+    .landscape\:h-10 {
+      height: 2.5rem;
+    }
+    
+    .landscape\:h-11 {
+      height: 2.75rem;
+    }
+    
+    .landscape\:px-4 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+    
+    .landscape\:max-h-44 {
+      max-height: 11rem;
+    }
+    
+    .landscape\:max-h-64 {
+      max-height: 16rem;
+    }
+    
+    .landscape\:overflow-y-auto {
+      overflow-y: auto;
+    }
+    
+    .landscape\:pr-2 {
+      padding-right: 0.5rem;
+    }
+    
+    .landscape\:p-1\.5 {
+      padding: 0.375rem;
+    }
+    
+    .landscape\:p-2 {
+      padding: 0.5rem;
+    }
+    
+    .landscape\:w-2\.5 {
+      width: 0.625rem;
+    }
+    
+    .landscape\:h-2\.5 {
+      height: 0.625rem;
+    }
+    
+    .landscape\:w-3 {
+      width: 0.75rem;
+    }
+    
+    .landscape\:h-3 {
+      height: 0.75rem;
+    }
+    
+    .landscape\:w-4 {
+      width: 1rem;
+    }
+    
+    .landscape\:h-4 {
+      height: 1rem;
+    }
+    
+    .landscape\:text-xs {
+      font-size: 0.75rem;
+      line-height: 1rem;
+    }
   }
 }

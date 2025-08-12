@@ -114,23 +114,23 @@ export function SetupScreen({
 
           {/* قائمة اللاعبين */}
           {players.length > 0 && (
-            <div className="space-y-3 animate-fade-in landscape:col-span-1">
-              <Label className="text-base sm:text-lg landscape:text-base font-semibold">اللاعبون ({players.length})</Label>
-              <div className="space-y-2 landscape:max-h-64 landscape:overflow-y-auto landscape:pr-2">
+            <div className="space-y-2 animate-fade-in landscape:col-span-1">
+              <Label className="text-base sm:text-lg landscape:text-sm font-semibold">اللاعبون ({players.length})</Label>
+              <div className="space-y-1 max-h-56 sm:max-h-64 landscape:max-h-44 overflow-y-auto pr-1 landscape:pr-2">
                 {players.map((player, index) => (
                   <div 
                     key={index} 
-                    className="flex items-center justify-between p-2 sm:p-3 landscape:p-2 bg-muted rounded-lg border transition-all hover:bg-muted/80 hover:scale-105 animate-scale-in"
+                    className="flex items-center justify-between p-1.5 sm:p-2 landscape:p-1.5 bg-muted rounded-md border transition-all hover:bg-muted/80 hover:scale-[1.02] animate-scale-in"
                     style={{ animationDelay: `${index * 0.1}s` }}
                   >
-                    <span className="font-medium text-sm sm:text-base landscape:text-sm">{player.name}</span>
+                    <span className="font-medium text-xs sm:text-sm landscape:text-xs truncate mr-2">{player.name}</span>
                     <GameButton
                       variant="danger"
                       size="sm"
                       onClick={() => onRemovePlayer(index)}
-                      className="h-7 w-7 sm:h-8 sm:w-8 landscape:h-7 landscape:w-7 p-0 transition-all hover:scale-110"
+                      className="h-6 w-6 sm:h-7 sm:w-7 landscape:h-6 landscape:w-6 p-0 transition-all hover:scale-110 shrink-0"
                     >
-                      <Trash2 className="w-3 h-3 sm:w-4 sm:h-4 landscape:w-3 landscape:h-3" />
+                      <Trash2 className="w-2.5 h-2.5 sm:w-3 sm:h-3 landscape:w-2.5 landscape:h-2.5" />
                     </GameButton>
                   </div>
                 ))}
