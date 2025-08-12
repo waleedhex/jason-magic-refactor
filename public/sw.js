@@ -1,74 +1,96 @@
-const CACHE_NAME = 'asra3-wahad-v2.0';
-const STATIC_CACHE = 'asra3-static-v2.0';
-const DYNAMIC_CACHE = 'asra3-dynamic-v2.0';
+const CACHE_NAME = 'asra3-wahad-v2.1';
+const STATIC_CACHE = 'asra3-static-v2.1';
+const DYNAMIC_CACHE = 'asra3-dynamic-v2.1';
 
-// جميع الملفات الثابتة للتطبيق
-const STATIC_FILES = [
+// جميع الملفات الحيوية للتطبيق - يجب تحميلها فوراً
+const CRITICAL_FILES = [
   '/',
   '/index.html',
   '/manifest.json',
   '/icon-192x192.png',
   '/icon-512x512.png',
-  '/robots.txt'
-];
-
-// البيانات والأصول الثابتة
-const DATA_FILES = [
+  '/robots.txt',
   '/src/data/codes.json',
   '/src/data/orders.json',
   '/src/assets/store-sticker.png'
 ];
 
-// تثبيت Service Worker وتخزين الملفات
+// ملفات اللعبة المهمة
+const GAME_FILES = [
+  '/src/components/game/GameScreen.tsx',
+  '/src/components/game/SetupScreen.tsx',
+  '/src/components/game/LoginScreen.tsx',
+  '/src/components/game/ResultsScreen.tsx',
+  '/src/components/game/TimeUpModal.tsx',
+  '/src/components/game/WinnerDialog.tsx',
+  '/src/components/ui/game-button.tsx',
+  '/src/components/ui/game-card.tsx'
+];
+
+// تثبيت Service Worker وتخزين الملفات فوراً
 self.addEventListener('install', (event) => {
-  console.log('[SW] Installing Service Worker v2.0...');
+  console.log('[SW] Installing Service Worker v2.1 - Instant Load...');
   
   event.waitUntil(
-    Promise.all([
-      // تخزين الملفات الثابتة
-      caches.open(STATIC_CACHE).then((cache) => {
-        console.log('[SW] Caching static files');
-        return cache.addAll(STATIC_FILES);
-      }),
-      
-      // تخزين البيانات والأصول
-      caches.open(DYNAMIC_CACHE).then((cache) => {
-        console.log('[SW] Caching data files');
-        return cache.addAll(DATA_FILES).catch((error) => {
-          console.warn('[SW] Some data files failed to cache:', error);
-          // نحاول إضافة الملفات واحداً تلو الآخر
-          return Promise.allSettled(
-            DATA_FILES.map(file => cache.add(file))
-          );
-        });
-      })
-    ]).then(() => {
-      console.log('[SW] All files cached successfully');
-      self.skipWaiting();
-    }).catch((error) => {
-      console.error('[SW] Failed to cache files:', error);
-    })
+    (async () => {
+      try {
+        // فتح الكاش
+        const cache = await caches.open(STATIC_CACHE);
+        console.log('[SW] Caching ALL critical files instantly...');
+        
+        // تحميل جميع الملفات الحيوية فوراً بالتوازي الكامل
+        await Promise.all([
+          ...CRITICAL_FILES.map(file => 
+            cache.add(file).catch(err => {
+              console.warn(`[SW] Failed to cache critical file ${file}:`, err);
+              return null;
+            })
+          ),
+          ...GAME_FILES.map(file => 
+            cache.add(file).catch(err => {
+              console.warn(`[SW] Failed to cache game file ${file}:`, err);
+              return null;
+            })
+          )
+        ]);
+        
+        console.log('[SW] All critical files cached instantly!');
+        self.skipWaiting();
+        
+      } catch (error) {
+        console.error('[SW] Critical error during install:', error);
+        // حتى لو فشل بعض الملفات، نكمل التثبيت
+        self.skipWaiting();
+      }
+    })()
   );
 });
 
 // تفعيل Service Worker وتنظيف الكاش القديم
 self.addEventListener('activate', (event) => {
-  console.log('[SW] Activating Service Worker...');
+  console.log('[SW] Activating Service Worker v2.1...');
   
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (![STATIC_CACHE, DYNAMIC_CACHE].includes(cacheName)) {
-            console.log('[SW] Deleting old cache:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
-    }).then(() => {
-      console.log('[SW] Service Worker activated and ready');
-      self.clients.claim();
-    })
+    (async () => {
+      try {
+        // تنظيف الكاش القديم
+        const cacheNames = await caches.keys();
+        await Promise.all(
+          cacheNames.map((cacheName) => {
+            if (![STATIC_CACHE, DYNAMIC_CACHE].includes(cacheName)) {
+              console.log('[SW] Deleting old cache:', cacheName);
+              return caches.delete(cacheName);
+            }
+          })
+        );
+        
+        console.log('[SW] Service Worker activated - All files ready instantly!');
+        await self.clients.claim();
+        
+      } catch (error) {
+        console.error('[SW] Activation error:', error);
+      }
+    })()
   );
 });
 
@@ -98,9 +120,9 @@ async function handleRequest(request) {
   const url = new URL(request.url);
   
   try {
-    // استراتيجية Cache First للملفات الثابتة والبيانات
-    if (isStaticFile(url.pathname) || isDataFile(url.pathname)) {
-      return await cacheFirst(request);
+    // استراتيجية Cache First للملفات الحيوية والألعاب والبيانات
+    if (isStaticFile(url.pathname) || isGameFile(url.pathname) || isDataFile(url.pathname)) {
+      return await instantCacheFirst(request);
     }
     
     // استراتيجية Network First للملفات الديناميكية (JS, CSS)
@@ -109,7 +131,7 @@ async function handleRequest(request) {
     }
     
     // استراتيجية Cache First للملفات الأخرى
-    return await cacheFirst(request);
+    return await instantCacheFirst(request);
     
   } catch (error) {
     console.error('[SW] Request failed:', error);
@@ -129,24 +151,34 @@ async function handleRequest(request) {
   }
 }
 
-// Cache First - جرب الكاش أولاً ثم الشبكة
-async function cacheFirst(request) {
+// Instant Cache First - فوري من الكاش بدون تأخير
+async function instantCacheFirst(request) {
+  // جرب الكاش فوراً
   const cachedResponse = await caches.match(request);
   
   if (cachedResponse) {
-    console.log('[SW] Serving from cache:', request.url);
+    console.log('[SW] ⚡ INSTANT from cache:', request.url);
     return cachedResponse;
   }
   
-  console.log('[SW] Fetching from network:', request.url);
-  const response = await fetch(request);
-  
-  if (response && response.status === 200) {
-    const cache = await caches.open(DYNAMIC_CACHE);
-    cache.put(request, response.clone());
+  // إذا لم توجد في الكاش، احضرها من الشبكة واحفظها فوراً
+  console.log('[SW] 🌐 Fetching and caching instantly:', request.url);
+  try {
+    const response = await fetch(request);
+    
+    if (response && response.status === 200) {
+      const cache = await caches.open(STATIC_CACHE);
+      // حفظ فوري بدون انتظار
+      cache.put(request, response.clone()).catch(err => 
+        console.warn('[SW] Cache put failed:', err)
+      );
+    }
+    
+    return response;
+  } catch (error) {
+    console.error('[SW] Network fetch failed:', error);
+    throw error;
   }
-  
-  return response;
 }
 
 // Network First - جرب الشبكة أولاً ثم الكاش
@@ -175,7 +207,13 @@ async function networkFirst(request) {
 
 // فحص نوع الملف
 function isStaticFile(pathname) {
-  return STATIC_FILES.some(file => pathname === file || pathname.endsWith(file));
+  return CRITICAL_FILES.some(file => pathname === file || pathname.endsWith(file));
+}
+
+function isGameFile(pathname) {
+  return GAME_FILES.some(file => pathname.includes(file.replace('/src/', '/src/'))) ||
+         pathname.includes('/components/game/') ||
+         pathname.includes('/components/ui/game-');
 }
 
 function isDataFile(pathname) {
