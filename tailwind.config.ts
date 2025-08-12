@@ -64,7 +64,8 @@ export default {
 					},
 					timer: 'hsl(var(--game-timer))',
 					success: 'hsl(var(--game-success))',
-					warning: 'hsl(var(--game-warning))'
+					warning: 'hsl(var(--game-warning))',
+					info: 'hsl(var(--game-info))'
 				},
 				sidebar: {
 					DEFAULT: 'hsl(var(--sidebar-background))',
@@ -79,13 +80,15 @@ export default {
 			},
 			backgroundImage: {
 				'gradient-game': 'var(--gradient-primary)',
+				'gradient-secondary': 'var(--gradient-secondary)',
 				'gradient-card': 'var(--gradient-card)',
 				'gradient-success': 'var(--gradient-success)'
 			},
 			boxShadow: {
 				'game': 'var(--shadow-game)',
 				'card-game': 'var(--shadow-card)',
-				'glow': 'var(--shadow-glow)'
+				'glow': 'var(--shadow-glow)',
+				'accent': 'var(--shadow-accent)'
 			},
 			transitionTimingFunction: {
 				'smooth': 'var(--transition-smooth)',
