@@ -26,7 +26,7 @@ export function LoginScreen({ onLogin, codes }: LoginScreenProps) {
   }, [isPWA]);
 
   const verifyCode = () => {
-    if (codes.includes(codeInput.toLowerCase())) {
+    if (codes.some(code => code.toLowerCase() === codeInput.toLowerCase())) {
       // حفظ الرمز في localStorage
       localStorage.setItem('userLoginCode', codeInput.toLowerCase());
       onLogin();
